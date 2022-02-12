@@ -64,8 +64,8 @@ NewLabel.setIcon(new ImageIcon(ClassLoader.getSystemResource("icons/biman.jpg"))
         JMenuItem Pay = new JMenuItem("PAY");
         PaymentSystem.add(Pay);
         
-        JMenuItem SectorDetails_1 = new JMenuItem("PAYMENT DETAILS");
-	PaymentSystem.add(SectorDetails_1);
+//        JMenuItem SectorDetails_1 = new JMenuItem("PAYMENT DETAILS");
+//	PaymentSystem.add(SectorDetails_1);
 	
 	JMenu Ticket = new JMenu("TICKET");
         Ticket.setForeground(Color.GREEN);
@@ -106,15 +106,15 @@ NewLabel.setIcon(new ImageIcon(ClassLoader.getSystemResource("icons/biman.jpg"))
             }
 	});
 		
-        SectorDetails_1.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                try {
-                    new Payment_Details();
-		} catch (Exception e) {
-                    e.printStackTrace();
-		}
-            }
-	});
+//        SectorDetails_1.addActionListener(new ActionListener(){
+//            public void actionPerformed(ActionEvent ae){
+//                try {
+//                    new Payment_Details();
+//		} catch (Exception e) {
+//                    e.printStackTrace();
+//		}
+//            }
+//	});
 
         Pay.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){

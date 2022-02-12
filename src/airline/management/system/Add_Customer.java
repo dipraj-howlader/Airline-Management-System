@@ -13,19 +13,14 @@ import java.awt.event.FocusAdapter;
 
 public class Add_Customer extends JFrame{ //Third Frame
 
-    
+        static String pnr_no= new String();
+        static String name= new String();
+        static String fl_code= new String();
+        static String ph_no = new String();
 	JTextField textField,textField_1,textField_2,textField_3,textField_4,textField_5,textField_6;
         JComboBox c1;
 
-        public Add_Customer(){
-//    conn c = new conn();
-//    String str = "select pnr_no from passenger where pnr_no = (select max(pnr_no) from passenger)";
-//                 ResultSet rs = c.s.executeQuery(str);
-//                 if(rs.next()){
-//                       String s = rs.getString("pnr_no");
-//                        int pnr = Integer.parseInt(s);
-//}
-                        
+        public Add_Customer(){                    
                 
             getContentPane().setForeground(Color.BLUE);
             getContentPane().setBackground(Color.WHITE);
@@ -137,36 +132,19 @@ public class Add_Customer extends JFrame{ //Third Frame
             image.setBounds(450,80,280,410);
             add(image);
             
-//textField_1.addFocusListener(new FocusAdapter() {
-//
-//    @Override
-//    public void focusGained(FocusEvent e) {
-//        conn c = new conn();
-//    String str = "select pnr_no from passenger where pnr_no = (select max(pnr_no) from passenger)";
-//                 ResultSet rs = c.s.executeQuery(str);
-//                 if(rs.next()){
-//                       String s = rs.getString("pnr_no");
-//                        int pnr = Integer.parseInt(s);
-//                textField_1.setText("pnr");
-//                        
-//} 
-//    }
-//
-//});
-
-            
             Save.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent ae){
                     String passport_No = textField.getText();
-                    String pnr_no = textField_1.getText();
+                    pnr_no = textField_1.getText();
                     String address =  textField_2.getText();
                     String nationality = textField_3.getText();
-                    String name = textField_4.getText();
-                    String fl_code  = (String) c1.getSelectedItem();
-                   
+                    name = textField_4.getText();
+                    fl_code  = (String) c1.getSelectedItem();
                     String gender = null;
-                    String ph_no = textField_5.getText();
+                    ph_no = textField_5.getText();
+
                     
+
                     if(NewRadioButton.isSelected()){
                         gender = "male";
                     
@@ -194,8 +172,9 @@ public class Add_Customer extends JFrame{ //Third Frame
             setLocation(100,40);
 			
 	}
-        
+
     public static void main(String[] args){
         new Add_Customer();
+
     }   
 }
