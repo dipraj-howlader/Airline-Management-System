@@ -11,7 +11,7 @@ import java.awt.EventQueue;
 
 public class Payment extends JFrame {
      JTextField textField,textField_1,textField_2,textField_3,textField_4,textField_5,textField_6,textField_7,textField_8,textField_9,textField_10,textField_11,textField_12,textField_13;
-
+     JComboBox source, destination,classnm;
     public static void main(String[] args) {
         new Payment();
     }
@@ -78,11 +78,11 @@ public class Payment extends JFrame {
             ticket_id.setFont(new Font("Tahoma", Font.PLAIN, 17));
             ticket_id.setBounds(60, 80, 150, 27);
             add(ticket_id);
-            
+
             textField_4 = new JTextField();
             textField_4.setBounds(200, 80, 150, 27);
             add(textField_4);
-
+            
 
             JLabel jny_date = new JLabel("JOURNEY DATE");
             jny_date.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -107,9 +107,12 @@ public class Payment extends JFrame {
             src.setBounds(60, 200, 150, 27);
             add(src);
             
-            textField_7 = new JTextField();
-            textField_7.setBounds(200, 200, 150, 27);
-            add(textField_7);
+
+              String f_add[] = {"DHAKA","QUTAR","JAPAN","DUBAI","INDIA"};
+              source = new JComboBox(f_add);
+              source.setBounds(200, 200, 150, 27);
+              add(source);
+ 
 
 
             JLabel dst = new JLabel("DESTINATION");
@@ -117,9 +120,9 @@ public class Payment extends JFrame {
             dst.setBounds(60, 240, 150, 27);
             add(dst);
             
-            textField_8 = new JTextField();
-            textField_8.setBounds(200, 240, 150, 27);
-            add(textField_8);
+            destination = new JComboBox(f_add);
+            destination.setBounds(200, 240, 150, 27);
+            add(destination);
 
             JLabel seat_id = new JLabel("SEAT ID");
             seat_id.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -167,28 +170,28 @@ public class Payment extends JFrame {
             textField_12.setBounds(580, 220, 150, 27);
             add(textField_12);
 
+            JLabel class_name = new JLabel("CLASS NAME");
+            class_name.setFont(new Font("Tahoma", Font.PLAIN, 17));
+            class_name.setBounds(440, 260, 150, 27);
+            add(class_name);
+
+             String class_add[] = {"BUSINESS","ECONOMY"};
+              classnm = new JComboBox(class_add);
+              classnm.setBounds(580, 260, 150, 27);
+              add(classnm);
+
+
 // action listeners
-//        Next.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent ae) {
-//	
-//                String code = textField.getText();
-//                
-//                try {
-//                    conn c = new conn();
-//                    String str = "select * from passenger where pnr_no = '"+code+"'";
-//      
-//                    ResultSet rs = c.s.executeQuery(str);
-//                      if(rs.next()){
-//                       textField_1.setText(rs.getString("name"));
-//                       textField_2.setText(rs.getString("ph_no"));
-//                       textField_3.setText(rs.getString("fl_code"));
-//}
-//                    
-//                }catch(SQLException e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        textField_4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+	
+                String uniID = Add_Customer.timeAndDate;    
+//                        System.out.print(uniID);
+                       textField_4.setText(uniID);
+                    
+                }
+            }
+        );
 
  Next_2.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent ae){
@@ -196,11 +199,15 @@ public class Payment extends JFrame {
 //                    String name = textField_1.getText();
 //                    String phone =  textField_2.getText();
 //                    String f_code = textField_3.getText();
+                       
+
                     String ticket_id = textField_4.getText();
                     String jny_date = textField_5.getText();
                     String jny_time = textField_6.getText();
-                    String src  = textField_7.getText();
-                    String dst  = textField_8.getText();
+
+                    String src  = (String) source.getSelectedItem();
+
+                    String dst  = (String) destination.getSelectedItem();
                     String seat_id  = textField_9.getText();
                     String card_no  = textField_10.getText();
                     String paid_amt  = textField_11.getText();
@@ -209,13 +216,13 @@ public class Payment extends JFrame {
                     String name = Add_Customer.name;
                     String f_code = Add_Customer.fl_code;
                     String ph_no = Add_Customer.ph_no;
-                    
+                    String class_name = (String) classnm.getSelectedItem();
                     try {
                         conn c = new conn();
-                        String str = "INSERT INTO payment values( '"+pnr_no+"', '"+name+"', '"+card_no+"','"+f_code+"', '"+ticket_id+"', '"+jny_date+"','"+jny_time+"', '"+src+"','"+dst+"','"+seat_id+"','"+paid_amt+"','"+pay_date+"')";
-                       
+                        String str = "INSERT INTO payment values( '"+pnr_no+"', '"+name+"', '"+f_code+"','"+ticket_id+"', '"+paid_amt+"', '"+card_no+"','"+pay_date+"', '"+src+"','"+dst+"','"+jny_date+"','"+jny_time+"','"+seat_id+"','"+class_name+"')";
+                        String str1 = "update flight set sold=sold+1 where f_code='"+f_code+"' and class_name='"+class_name+"' and src = '"+src+"' and dst = '"+dst+"'";
                         c.s.executeUpdate(str);
-
+                        c.s.executeUpdate(str1);
                         JOptionPane.showMessageDialog(null,"Payment Done"); //pop up
                         setVisible(false);
                     

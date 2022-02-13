@@ -2,8 +2,8 @@
 package airline.management.system;
 
 import java.awt.EventQueue;
-
-
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;  
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -17,6 +17,7 @@ public class Add_Customer extends JFrame{ //Third Frame
         static String name= new String();
         static String fl_code= new String();
         static String ph_no = new String();
+        static String timeAndDate = new String();
 	JTextField textField,textField_1,textField_2,textField_3,textField_4,textField_5,textField_6;
         JComboBox c1;
 
@@ -142,9 +143,12 @@ public class Add_Customer extends JFrame{ //Third Frame
                     fl_code  = (String) c1.getSelectedItem();
                     String gender = null;
                     ph_no = textField_5.getText();
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");  
+                 LocalDateTime now = LocalDateTime.now(); 
+                 timeAndDate = pnr_no+"-"+dtf.format(now);
+//                    System.out.println(timeAndDate); 
 
-                    
-
+                      
                     if(NewRadioButton.isSelected()){
                         gender = "male";
                     
@@ -174,6 +178,7 @@ public class Add_Customer extends JFrame{ //Third Frame
 	}
 
     public static void main(String[] args){
+ 
         new Add_Customer();
 
     }   
