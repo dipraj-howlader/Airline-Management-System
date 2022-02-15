@@ -11,7 +11,7 @@ import java.awt.EventQueue;
 
 public class Payment extends JFrame {
      JTextField textField,textField_1,textField_2,textField_3,textField_4,textField_5,textField_6,textField_7,textField_8,textField_9,textField_10,textField_11,textField_12,textField_13;
-     JComboBox source, destination,classnm;
+     JComboBox source, destination,classnm,flight_name;
     public static void main(String[] args) {
         new Payment();
     }
@@ -154,31 +154,42 @@ public class Payment extends JFrame {
 //padi amo
             JLabel paid_amt = new JLabel("PAID AMOUNT");
             paid_amt.setFont(new Font("Tahoma", Font.PLAIN, 17));
-            paid_amt.setBounds(440, 180, 150, 27);
+            paid_amt.setBounds(440, 160, 150, 27);
             add(paid_amt);
             
             textField_11 = new JTextField();
-            textField_11.setBounds(580, 180, 150, 27);
+            textField_11.setBounds(580, 160, 150, 27);
             add(textField_11);
 //paydate
             JLabel pay_date = new JLabel("PAY DATE");
             pay_date.setFont(new Font("Tahoma", Font.PLAIN, 17));
-            pay_date.setBounds(440, 220, 150, 27);
+            pay_date.setBounds(440, 200, 150, 27);
             add(pay_date);
             
             textField_12 = new JTextField();
-            textField_12.setBounds(580, 220, 150, 27);
+            textField_12.setBounds(580, 200, 150, 27);
             add(textField_12);
 
             JLabel class_name = new JLabel("CLASS NAME");
             class_name.setFont(new Font("Tahoma", Font.PLAIN, 17));
-            class_name.setBounds(440, 260, 150, 27);
+            class_name.setBounds(440, 240, 150, 27);
             add(class_name);
 
              String class_add[] = {"BUSINESS","ECONOMY"};
               classnm = new JComboBox(class_add);
-              classnm.setBounds(580, 260, 150, 27);
+              classnm.setBounds(580, 240, 150, 27);
               add(classnm);
+
+
+            JLabel flight_model = new JLabel("FLIGHT MODEL");
+            flight_model.setFont(new Font("Tahoma", Font.PLAIN, 17));
+            flight_model.setBounds(440, 280, 150, 27);
+            add(flight_model);
+
+             String flightName[] = {"Boeing 787","Airbus a380","Embraer 175","Beoing 735","Airbus a320"};
+              flight_name = new JComboBox(flightName);
+              flight_name.setBounds(580, 280, 150, 27);
+              add(flight_name);
 
 
 // action listeners
@@ -217,10 +228,11 @@ public class Payment extends JFrame {
                     String f_code = Add_Customer.fl_code;
                     String ph_no = Add_Customer.ph_no;
                     String class_name = (String) classnm.getSelectedItem();
+                    String flight_model = (String) flight_name.getSelectedItem();
                     try {
                         conn c = new conn();
                         String str = "INSERT INTO payment values( '"+pnr_no+"', '"+name+"', '"+f_code+"','"+ticket_id+"', '"+paid_amt+"', '"+card_no+"','"+pay_date+"', '"+src+"','"+dst+"','"+jny_date+"','"+jny_time+"','"+seat_id+"','"+class_name+"')";
-                        String str1 = "update flight set sold=sold+1 where f_code='"+f_code+"' and class_name='"+class_name+"' and src = '"+src+"' and dst = '"+dst+"'";
+                        String str1 = "update flight set sold=sold+1 where f_code='"+f_code+"' and class_name='"+class_name+"' and src = '"+src+"' and dst = '"+dst+"' and flight_model='"+flight_model+"'";
                         c.s.executeUpdate(str);
                         c.s.executeUpdate(str1);
                         JOptionPane.showMessageDialog(null,"Payment Done"); //pop up
