@@ -6,16 +6,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime;
 
 public class Cancel extends JFrame { //Sixth
     
     private JTextField textField,textField_1,textField_2,textField_3,textField_4;
-
+    String f_code = new String();
+    String src = new String();
+    String dst = new String();
+    String fli_model = new String();
+    String class_name = new String();
+    String pnr_no = new String();
+    String todayDate = new String();
     public static void main(String[] args) {
         new Cancel();
     }
-    
+
     public Cancel() {
         initialize();
     }
@@ -39,74 +47,61 @@ public class Cancel extends JFrame { //Sixth
 	NewLabel.setBounds(470, 100, 250, 250);
 	add(NewLabel);
 		
-	JLabel PassengerNo = new JLabel("PASSENGER NO");
+	JLabel PassengerNo = new JLabel("TICKET NO");
 	PassengerNo.setFont(new Font("Tahoma", Font.PLAIN, 17));
-	PassengerNo.setBounds(60, 100, 132, 26);
+	PassengerNo.setBounds(60, 180, 132, 26);
 	add(PassengerNo);
 		
-	JLabel CancellationNo = new JLabel("CANCELLATION NO");
-	CancellationNo.setFont(new Font("Tahoma", Font.PLAIN, 17));
-	CancellationNo.setBounds(60, 150, 150, 27);
-	add(CancellationNo);
-		
-	JLabel CancellationDate = new JLabel("CANCELLATION DATE");
-	CancellationDate.setFont(new Font("Tahoma", Font.PLAIN, 17));
-	CancellationDate.setBounds(60, 200, 180, 27);
-	add(CancellationDate);
-		
-	JLabel Ticketid = new JLabel("TICKET_ID");
-	Ticketid.setFont(new Font("Tahoma", Font.PLAIN, 17));
-	Ticketid.setBounds(60, 250, 150, 27);
-	add(Ticketid);
-		
-	JLabel Flightcode = new JLabel("FLIGHT_CODE");
-	Flightcode.setFont(new Font("Tahoma", Font.PLAIN, 17));
-	Flightcode.setBounds(60, 300, 150, 27);
-	add(Flightcode);
-		
+	
+	textField = new JTextField();
+	textField.setBounds(250, 180, 150, 27);
+	add(textField);
+	
 	JButton Cancel = new JButton("CANCEL");
 	Cancel.setFont(new Font("Tahoma", Font.PLAIN, 14));
         Cancel.setBackground(Color.BLACK);
         Cancel.setForeground(Color.WHITE);
 	Cancel.setBounds(250, 350, 150, 30);
 	add(Cancel);
-		
-	textField = new JTextField();
-	textField.setBounds(250, 100, 150, 27);
-	add(textField);
-	
-        textField_1 = new JTextField();
-	textField_1.setBounds(250, 150, 150, 27);
-	add(textField_1);
-		
-	textField_2 = new JTextField();
-	textField_2.setBounds(250, 200, 150, 27);
-	add(textField_2);
-	
-        textField_3 = new JTextField();
-	textField_3.setBounds(250, 250, 150, 27);
-	add(textField_3);
-		
-	textField_4 = new JTextField();
-	textField_4.setBounds(250, 300, 150, 27);
-	add(textField_4);
 	
         Cancel.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
 		
-                String passenger_no = textField.getText();
-		String cancellation_no = textField_1.getText();
-		String cancellation_date = textField_2.getText();
-		String ticket_id = textField_3.getText();
-		String flight_code = textField_4.getText();
+                String ticket_no = textField.getText();
 					
 					
 		try{	
                     conn c = new conn();
-                    String str = "INSERT INTO cancellation values('"+passenger_no+"', '"+cancellation_no+"', '"+cancellation_date+"', '"+ticket_id+"', '"+flight_code+"')";
-		
-                    c.s.executeUpdate(str);
-                    JOptionPane.showMessageDialog(null,"Ticket Canceled");
+                    
+                    String str = "select pnr_no, f_code,src,dst,flight_model,class_name from payment where ticket_id = '"+ticket_no+"'";
+                    ResultSet rs = c.s.executeQuery(str);
+
+                 DateTimeFormatter myDate = DateTimeFormatter.ofPattern("yyyy:MM:dd");  
+                 LocalDateTime maybeNow = LocalDateTime.now(); 
+                    todayDate = myDate.format(maybeNow);
+                    
+                    while (rs.next())
+                         {
+                f_code = rs.getString("f_code");
+                src = rs.getString("src");
+                dst = rs.getString("dst");
+                fli_model = rs.getString("flight_model");
+                class_name = rs.getString("class_name");
+                pnr_no = rs.getString("pnr_no");
+
+//                System.out.print(f_code+" "+ src+" "+dst+" "+flight_model+" "+class_name);
+
+      }
+            String str1 = "INSERT INTO cancellation values('"+pnr_no+"', '"+todayDate+"','"+ticket_no+"', '"+f_code+"', '"+src+"', '"+dst+"','"+fli_model+"','"+class_name+"')";
+             c.s.executeUpdate(str1);
+            String str2 = "update flight set sold=sold-1 where f_code='"+f_code+"' and class_name='"+class_name+"' and src = '"+src+"' and dst = '"+dst+"' and flight_model='"+fli_model+"'";
+            c.s.executeUpdate(str2);
+            String str3 = "delete from passenger where pnr_no = '"+pnr_no+"'";
+            String str4 = "delete from payment where ticket_id = '"+ticket_no+"'";
+            c.s.executeUpdate(str3);
+            c.s.executeUpdate(str4);
+
+                    JOptionPane.showMessageDialog(null,"Ticket Cancelled and Refunding in Process!");
                     setVisible(false);
 						
 		}catch (Exception e) {

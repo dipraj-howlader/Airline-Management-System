@@ -132,7 +132,20 @@ public class Add_Customer extends JFrame{ //Third Frame
             JLabel image = new JLabel(i1);
             image.setBounds(450,80,280,410);
             add(image);
-            
+  //hjerer          
+             textField_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+	
+                String passengerNumber = Mainframe.pass_number;    
+//                        System.out.print(uniID);
+                       textField_1.setText(passengerNumber);
+                    
+                }
+            }
+        );
+
+
+
             Save.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent ae){
                     String passport_No = textField.getText();

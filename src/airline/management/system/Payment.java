@@ -231,7 +231,7 @@ public class Payment extends JFrame {
                     String flight_model = (String) flight_name.getSelectedItem();
                     try {
                         conn c = new conn();
-                        String str = "INSERT INTO payment values( '"+pnr_no+"', '"+name+"', '"+f_code+"','"+ticket_id+"', '"+paid_amt+"', '"+card_no+"','"+pay_date+"', '"+src+"','"+dst+"','"+jny_date+"','"+jny_time+"','"+seat_id+"','"+class_name+"')";
+                        String str = "INSERT INTO payment values( '"+pnr_no+"', '"+name+"', '"+f_code+"','"+ticket_id+"', '"+paid_amt+"', '"+card_no+"','"+pay_date+"', '"+src+"','"+dst+"','"+jny_date+"','"+jny_time+"','"+seat_id+"','"+class_name+"','"+flight_model+"')";
                         String str1 = "update flight set sold=sold+1 where f_code='"+f_code+"' and class_name='"+class_name+"' and src = '"+src+"' and dst = '"+dst+"' and flight_model='"+flight_model+"'";
                         c.s.executeUpdate(str);
                         c.s.executeUpdate(str1);

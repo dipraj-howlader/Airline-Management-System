@@ -12,7 +12,7 @@ import java.awt.EventQueue;
 
 
 public class Mainframe extends JFrame{
-
+    static String pass_number =  new String();
     public static void main(String[] args) {
         new Mainframe().setVisible(true);
     }
@@ -44,28 +44,21 @@ NewLabel.setIcon(new ImageIcon(ClassLoader.getSystemResource("icons/biman.jpg"))
 		
         JMenuItem FlightDetails = new JMenuItem("FLIGHT INFO");
 	AirlineSystem.add(FlightDetails);
-		
+
+
+	JMenuItem PassengerDetails = new JMenuItem("JOURNEY DETAILS");
+	AirlineSystem.add(PassengerDetails);
+	
 	JMenuItem ReservationDetails = new JMenuItem("ADD CUSTOMER DETAILS");
 	AirlineSystem.add(ReservationDetails);
 		
-	JMenuItem PassengerDetails = new JMenuItem("JOURNEY DETAILS");
-	AirlineSystem.add(PassengerDetails);
+
 		
 
 		
 	JMenuItem Cancellation = new JMenuItem("CANCELLATION");
 	AirlineSystem.add(Cancellation);
 	
-        		
-        JMenu PaymentSystem = new JMenu("PAYMENT SYSTEM");
-        PaymentSystem.setForeground(Color.BLUE);
-	menuBar.add(PaymentSystem);
-
-        JMenuItem Pay = new JMenuItem("PAY");
-        PaymentSystem.add(Pay);
-        
-//        JMenuItem SectorDetails_1 = new JMenuItem("PAYMENT DETAILS");
-//	PaymentSystem.add(SectorDetails_1);
 	
 	JMenu Ticket = new JMenu("TICKET");
         Ticket.setForeground(Color.GREEN);
@@ -82,6 +75,15 @@ NewLabel.setIcon(new ImageIcon(ClassLoader.getSystemResource("icons/biman.jpg"))
 	ReservationDetails.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
                 try {  
+                     conn c = new conn();
+                     String str = "select pnr_no from passenger where pnr_no = (select max(pnr_no) from passenger)";
+                     ResultSet rs = c.s.executeQuery(str);
+                      while (rs.next()){
+                        pass_number = rs.getString("pnr_no");
+//                        System.out.println(pass_number);
+                        }
+
+
                     new Add_Customer();
                     
 		} catch (Exception e) {
@@ -116,15 +118,15 @@ NewLabel.setIcon(new ImageIcon(ClassLoader.getSystemResource("icons/biman.jpg"))
 //            }
 //	});
 
-        Pay.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                try {
-                    new Payment();
-		} catch (Exception e) {
-                    e.printStackTrace();
-		}
-            }
-	});
+//        Pay.addActionListener(new ActionListener(){
+//            public void actionPerformed(ActionEvent ae){
+//                try {
+//                    new Payment();
+//		} catch (Exception e) {
+//                    e.printStackTrace();
+//		}
+//            }
+//	});
 		
         setSize(1950,1090);
 	setVisible(true);
