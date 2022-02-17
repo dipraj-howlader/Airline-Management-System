@@ -136,7 +136,10 @@ public class Add_Customer extends JFrame{ //Third Frame
              textField_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
 	
-                String passengerNumber = Mainframe.pass_number;    
+                String numberss = Mainframe.pass_number;   
+                int i = Integer.parseInt(numberss);
+                i = i+1;
+                String passengerNumber = String.valueOf(i);  
 //                        System.out.print(uniID);
                        textField_1.setText(passengerNumber);
                     

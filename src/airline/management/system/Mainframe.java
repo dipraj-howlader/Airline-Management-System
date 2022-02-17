@@ -12,7 +12,7 @@ import java.awt.EventQueue;
 
 
 public class Mainframe extends JFrame{
-    static String pass_number =  new String();
+    static String pass_number = new String();
     public static void main(String[] args) {
         new Mainframe().setVisible(true);
     }
@@ -63,8 +63,17 @@ NewLabel.setIcon(new ImageIcon(ClassLoader.getSystemResource("icons/biman.jpg"))
 	JMenu Ticket = new JMenu("TICKET");
         Ticket.setForeground(Color.GREEN);
 	menuBar.add(Ticket);
-
         
+        JMenuItem TicketGen = new JMenuItem("DOWNLOAD TICKET");
+	Ticket.add(TicketGen);
+
+        TicketGen.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                new TicketGenerate();
+                }
+            });
+
+
 		
 	FlightDetails.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
@@ -79,7 +88,9 @@ NewLabel.setIcon(new ImageIcon(ClassLoader.getSystemResource("icons/biman.jpg"))
                      String str = "select pnr_no from passenger where pnr_no = (select max(pnr_no) from passenger)";
                      ResultSet rs = c.s.executeQuery(str);
                       while (rs.next()){
+//                       int number = pnr_no+1;
                         pass_number = rs.getString("pnr_no");
+
 //                        System.out.println(pass_number);
                         }
 
@@ -108,25 +119,7 @@ NewLabel.setIcon(new ImageIcon(ClassLoader.getSystemResource("icons/biman.jpg"))
             }
 	});
 		
-//        SectorDetails_1.addActionListener(new ActionListener(){
-//            public void actionPerformed(ActionEvent ae){
-//                try {
-//                    new Payment_Details();
-//		} catch (Exception e) {
-//                    e.printStackTrace();
-//		}
-//            }
-//	});
-
-//        Pay.addActionListener(new ActionListener(){
-//            public void actionPerformed(ActionEvent ae){
-//                try {
-//                    new Payment();
-//		} catch (Exception e) {
-//                    e.printStackTrace();
-//		}
-//            }
-//	});
+        
 		
         setSize(1950,1090);
 	setVisible(true);
